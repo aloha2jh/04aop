@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=
+				"http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context 
+				http://www.springframework.org/schema/context/spring-context.xsd">
+				
+				
+				
+	 <bean id="messageTarget" class="spring.service.aop.impl.MessageImpl"/> <!-- Target Object  -->
+	 
+	 <bean id="testAdvice" class="spring.service.aop.advice.TestAdvice"/> <!-- Advice 정의 -->
+	  
+	 <bean id="testAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+	 	<property name="advice" ref="testAdvice"/>
+	 	<property name="expression" value="execution(public !void get*(..))" />
+	 </bean>
+	 
+	 <bean id="message" class="org.springframework.aop.framework.ProxyFactoryBean">
+	  
+	 	<property name="interceptorNames" value="testAdvisor"/>
+	 	<property name="target" ref="messageTarget"/> 
+	 </bean>
+	  
+</beans>
